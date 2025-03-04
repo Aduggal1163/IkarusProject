@@ -1,0 +1,45 @@
+        body { margin: 0; overflow: hidden; font-family: Arial, sans-serif; }
+        #controls {
+            width: 300px;
+            background: #1e1e2f;
+            color: #fff;
+            padding: 20px;
+            position: fixed;
+            left: -720px;
+            top: 0;
+            height: 100%;
+            transition: left 0.3s ease-in-out;
+            overflow-y: auto;
+        }
+        h2 { 
+            margin-top: 40px;
+            text-align: center; 
+        }
+        .planet-controls {
+            background: #29293d;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        h3 { text-align: center; color: #00d9ff; }
+        label { display: block; margin: 5px 0; }
+        input[type="range"] { width: 100%; }
+        #toggle-btn {
+            position: fixed;
+            left: 10px;
+            top: 10px;
+            background: #00d9ff;
+            color: #000;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        #controls {
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+#controls::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, and Opera */
+}

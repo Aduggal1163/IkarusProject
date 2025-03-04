@@ -110,35 +110,34 @@ window.updatePlanet = (name, property, value) => {
 
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
-
 window.addEventListener('mousemove', (event) => {
     mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
     mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
     raycaster.setFromCamera(mouse, camera);
-    const intersects = raycaster.intersectObjects(planets.map(p => p.mesh));
+    const intersects = raycaster.intersectObjects([...planets.map(p => p.mesh), sun]);
 
     planets.forEach(planet => planet.isHovered = false);
+    sun.isHovered = false;
 
     if (intersects.length > 0) {
-        const planet = intersects[0].object.userData;
-        planet.isHovered = true;
+        const obj = intersects[0].object.userData;
+        obj.isHovered = true;
         infoDiv.style.left = `${event.clientX + 10}px`;
         infoDiv.style.top = `${event.clientY + 10}px`;
         infoDiv.style.display = 'block';
         infoDiv.innerHTML = `
-            <strong>${planet.name}</strong><br>
-            Size: ${planet.radius} units<br>
-            Speed: ${planet.speed} units<br>
-            Distance From Sun: ${planet.distance} units<br>
-            Atmosphere: ${planet.atmosphere}<br>
-            Moons: ${planet.moons}<br>
-            Temperature: ${planet.temperature}
+            <strong>${obj.name}</strong><br>
+            Size: ${obj.radius} units<br>
+            Atmosphere: ${obj.atmosphere}<br>
+            Moons: ${obj.moons}<br>
+            Temperature: ${obj.temperature}
         `;
     } else {
         infoDiv.style.display = 'none';
     }
 });
+
 
 const animate = () => {
     requestAnimationFrame(animate);

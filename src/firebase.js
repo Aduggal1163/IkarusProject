@@ -4,12 +4,12 @@ import { getFirestore, collection, addDoc, getDocs } from "firebase/firestore";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAFOT0EQWPUGppCwxei2GVf2NqiBcN8YVY",
+  apiKey: "AIzaSyAFHU&EQWPUGppCwNj2i2GVf2NqiBcN8sadb",
   authDomain: "http://solar-system-a0ebf.firebaseapp.com",
-  projectId: "solar-system-a0ebf",
-  storageBucket: "http://solar-system-a0ebf.firebasestorage.app",
-  messagingSenderId: "672514859100",
-  appId: "1:672514859100:web:0ccc97759f066012cf8699"
+  projectId: "solar-system-basidf",
+  storageBucket: "http://solar-system-aan sf.firebasestorage.app",
+  messagingSenderId: "6725627839102",
+  appId: "1:6725156700:web:0627180HUSAf066012cf8699"
 };
 
 // Initialize Firebase

@@ -166,3 +166,95 @@ function toggleSidebar() {
     const sidebar = document.getElementById('controls');
     sidebar.style.left = sidebar.style.left === '0px' ? '-720px' : '0px';
 }
+
+// Firebase configuration
+const firebaseConfig = {
+    apiKey: "AIzaSyAFOT0EQWPUGppCwxei2GVf2NqiBcN8YVY",
+    authDomain: "http://solar-system-a0ebf.firebaseapp.com",
+    projectId: "solar-system-a0ebf",
+    storageBucket: "http://solar-system-a0ebf.firebasestorage.app",
+    messagingSenderId: "672514859100",
+    appId: "1:672514859100:web:0ccc97759f066012cf8699"
+  };
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// Function to save configuration
+// Function to save configuration to localStorage
+window.saveConfiguration = () => {
+    const configName = document.getElementById('config-name').value;
+    if (!configName) {
+        alert('Please enter a configuration name');
+        return;
+    }
+
+    const configuration = {
+        name: configName,
+        timestamp: new Date(),
+        planets: planets.map(planet => ({
+            name: planet.name,
+            radius: planet.radius,
+            distance: planet.distance,
+            speed: planet.speed,
+            color: planet.color,
+            atmosphere: planet.atmosphere,
+            moons: planet.moons,
+            temperature: planet.temperature,
+            angle: planet.angle
+        }))
+    };
+
+    try {
+        localStorage.setItem(configName, JSON.stringify(configuration));
+        alert('Configuration saved successfully!');
+    } catch (error) {
+        console.error('Error saving configuration:', error);
+        alert('Error saving configuration. Please try again.');
+    }
+};
+
+
+// Function to load configuration
+window.loadConfiguration = async () => {
+    const configName = document.getElementById('config-name').value;
+    if (!configName) {
+        alert('Please enter a configuration name');
+        return;
+    }
+
+    try {
+        const doc = await db.collection('solarSystemConfigs').doc(configName).get();
+        if (!doc.exists) {
+            alert('Configuration not found');
+            return;
+        }
+
+        const configuration = doc.data();
+        configuration.planets.forEach(savedPlanet => {
+            const planet = planets.find(p => p.name === savedPlanet.name);
+            if (planet) {
+                planet.radius = savedPlanet.radius;
+                planet.distance = savedPlanet.distance;
+                planet.speed = savedPlanet.speed;
+                planet.angle = savedPlanet.angle;
+                
+                // Update planet mesh
+                planet.mesh.geometry.dispose();
+                planet.mesh.geometry = new THREE.SphereGeometry(planet.radius, 32, 32);
+                
+                // Update orbit
+                const orbit = planet.mesh.parent.children.find(child => child instanceof THREE.Mesh && child !== planet.mesh);
+                if (orbit) {
+                    orbit.geometry.dispose();
+                    orbit.geometry = new THREE.RingGeometry(planet.distance - 0.5, planet.distance + 0.5, 128);
+                }
+            }
+        });
+        alert('Configuration loaded successfully!');
+    } catch (error) {
+        console.error('Error loading configuration:', error);
+        alert('Error loading configuration. Please try again.');
+    }
+};
